@@ -25,6 +25,7 @@ import errno
 import fcntl
 import logging
 import os
+import ssl
 import random
 import re
 import signal
@@ -638,6 +639,7 @@ class SenderThread(threading.Thread):
                     self.tsd = socket.socket(family, socktype, proto)
                     self.tsd.settimeout(15)
                     self.tsd.connect(sockaddr)
+                    self.tsd = ssl.wrap_socket(self.tsd)
                     # if we get here it connected
                     LOG.debug('Connection to %s was successful'%(str(sockaddr)))
                     break
